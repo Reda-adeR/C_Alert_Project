@@ -1,9 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import { handleLogin } from '../api/auth';
 
+import { AuthContext } from '../context/AuthContext';
+
+import { useNavigate } from 'react-router-dom';
+
 export default function Login() {
+    // manage authentication state
+    // login operation.
+    // redirect after login.
+    const { login, auth } = useContext(AuthContext);
+    useEffect(() => {
+    if (auth.accessToken) {
+        navigate('/dashboard');
+    }
+    });
+    const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
         username: '',
         password: '',
@@ -21,8 +36,14 @@ export default function Login() {
         try {
         // Call your login API here
         console.log('Logging in with:', formData);
-        await handleLogin(formData);
+        const data = await handleLogin(formData);
         console.log('Login successful');
+        
+        login({
+            accessToken: data.access,
+            role: data.role,
+        });
+        navigate('/dashboard'); // Redirect to dashboard or home page after login
         // Handle success, e.g., redirect to dashboard
         } catch (err) {
         console.error('Login failed:', err);

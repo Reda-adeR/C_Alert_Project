@@ -43,6 +43,8 @@ export const handleLogin = async (userIds) => {
     if (!data.access || !data.refresh) {
         throw new Error('Missing access or refresh token in response');
         }
+
+    
     // Assuming data contains access_token, refresh_token, and role
     console.log('Access Token:', data.access);
     console.log('Refresh Token:', data.refresh);
@@ -52,4 +54,6 @@ export const handleLogin = async (userIds) => {
   localStorage.setItem('accessToken', data.access);
   localStorage.setItem('refreshToken', data.refresh);
   localStorage.setItem('role', data.role);
+
+    return data;
 };

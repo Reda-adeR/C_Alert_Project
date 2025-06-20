@@ -12,3 +12,8 @@ Frontend Tasks :
 - Frontend init using react and Tailwind 3
 - Pages -> Login / Register Routed
 - Linked the Frontend <-With-> Backend
+
+
+
+Register and Login finished
+Conditional rendering - Role based Rendering
