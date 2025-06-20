@@ -33,6 +33,7 @@ class UserRegisterView(CreateAPIView):
     # If the login fails, it will return an error message
 class UserLoginView(CreateAPIView):
     def post(self, request):
+        print("Login request data:", request.data)
         username = request.data.get('username')
         password = request.data.get('password')
 
