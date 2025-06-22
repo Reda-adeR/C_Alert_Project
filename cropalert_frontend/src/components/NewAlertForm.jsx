@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useCallback } from 'react';
 import { AuthContext } from '../context/AuthContext';
 
 import { createAlert } from '../api/alerts';
@@ -29,6 +29,9 @@ export default function NewAlert() {
 //     setCoords({ longitude: lng, latitude: lat });
 //   };
 
+    const handleMapClick = useCallback(({ longitude, latitude }) => {
+      setCoords({ longitude, latitude });
+      }, []);
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -86,8 +89,17 @@ export default function NewAlert() {
         <div>
         <label className="block font-semibold mb-2">Select location on the map *</label>
         <div className="w-full h-[300px] overflow-hidden rounded shadow border">
-        <AlertMap latitude={coords.latitude} longitude={coords.longitude} />
+          <AlertMap 
+            latitude={coords.latitude} 
+            longitude={coords.longitude} 
+            onMapClick={handleMapClick}
+          />
         </div>
+        {coords.latitude && coords.longitude && (
+          <p className="text-sm text-gray-600 mt-1">
+            Selected location - Latitude : {coords.latitude.toFixed(4)}, Longitude : {coords.longitude.toFixed(4)}
+          </p>
+        )}
         </div>
 
         <button
