@@ -14,5 +14,7 @@ class AlertSerializer(serializers.ModelSerializer):
             'latitude',
             'longitude',
             'timestamp',
-            'publisher'
+            'publisher',
+            'area',
+            'crops'
         ]

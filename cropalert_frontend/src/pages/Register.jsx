@@ -84,7 +84,7 @@ export default function Register() {
           onChange={handleChange}
         >
           <option value="farmer">Farmer</option>
-          <option value="agronome">Agronome</option>
+          <option value="argonome">Agronome</option>
         </select>
 
         <button

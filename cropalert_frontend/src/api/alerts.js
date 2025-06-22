@@ -59,3 +59,28 @@ export async function fetchAlerts(accessToken, logout) {
     return [];
   }
 }
+
+
+export const fetchAlertsFiltered = async (accessToken, logout, filters = {}) => {
+  const query = new URLSearchParams();
+  if (filters.area) query.append('area', filters.area);
+  if (filters.crops) query.append('crops', filters.crops);
+
+  try {
+    const response = await fetch(`${API_BASE}/alerts/filter/?${query.toString()}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    });
+
+    if (response.status === 401) {
+      logout();
+      throw new Error('Unauthorized');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Failed to fetch alerts:', error);
+    throw error;
+  }
+};

@@ -10,6 +10,8 @@ export default function NewAlert() {
   const [form, setForm] = useState({
     title: '',
     description: '',
+    area: '',
+    crops: ''
   });
   const [coords, setCoords] = useState({ longitude: -5.0, latitude: 32.0 });
 //   const [viewport, setViewport] = useState({
@@ -46,7 +48,7 @@ export default function NewAlert() {
 
       await createAlert({ ...form, ...coords }, auth.accessToken, logout);
       setSuccess('Alert published successfully');
-      setForm({ title: '', description: '', latitude: '', longitude: '' });
+      setForm({ title: '', description: '', area: '', crops: '' });
     } catch (err) {
       setError(err.message);
     } finally {
@@ -56,7 +58,7 @@ export default function NewAlert() {
 
   return (
     <div className="max-w-xl mx-auto p-6">
-      <h2 className="text-2xl font-bold mb-4 text-center">Create New Alert</h2>
+      <h2 className="text-2xl font-bold mb-2 text-center">Create New Alert</h2>
 
       {error && <p className="text-red-600 mb-2">{error}</p>}
       {success && <p className="text-green-600 mb-2">{success}</p>}
@@ -81,14 +83,38 @@ export default function NewAlert() {
             value={form.description}
             onChange={handleChange}
             required
-            rows="4"
+            rows="2"
+            className="w-full border border-gray-300 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
+          />
+        </div>
+
+        <div>
+          <label className="block font-semibold mb-1">Area *</label>
+          <input
+            type="text"
+            name="area"
+            value={form.area}
+            onChange={handleChange}
+            required
+            className="w-full border border-gray-300 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
+          />
+        </div>
+
+        <div>
+          <label className="block font-semibold mb-1">Crops *</label>
+          <input
+            type="text"
+            name="crops"
+            value={form.crops}
+            onChange={handleChange}
+            required
             className="w-full border border-gray-300 px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
           />
         </div>
 
         <div>
         <label className="block font-semibold mb-2">Select location on the map *</label>
-        <div className="w-full h-[300px] overflow-hidden rounded shadow border">
+        <div className="w-full h-[250px] overflow-hidden rounded shadow border">
           <AlertMap 
             latitude={coords.latitude} 
             longitude={coords.longitude} 

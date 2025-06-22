@@ -26,3 +26,20 @@ class AlertListCreateView(APIView):
             serializer.save(publisher=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class AlertFilteredView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        area = request.query_params.get('area')
+        crops = request.query_params.get('crops')
+
+        filters = {}
+        if area:
+            filters['area__icontains'] = area
+        if crops:
+            filters['crops__icontains'] = crops
+
+        alerts = Alert.objects.filter(**filters).order_by('-timestamp')
+        serializer = AlertSerializer(alerts, many=True)
+        return Response(serializer.data)
