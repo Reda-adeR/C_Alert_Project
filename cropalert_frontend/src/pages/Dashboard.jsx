@@ -1,6 +1,7 @@
 import NavBar from '../components/NavBar';
 import NewAlertForm from '../components/NewAlertForm';
 import Feed from '../components/Feed'; // (stub for now)
+import InteractiveMap from '../components/InteractiveMap';
 
 import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
@@ -23,7 +24,7 @@ export default function Dashboard() {
       case 'feed':
         return <Feed />;
       case 'map':
-        return <div>🗺️ Map view coming soon</div>;
+        return <InteractiveMap />; // Assuming InteractiveMap is the map component
       case 'notifications':
         return <div>🔔 Notification list</div>;
       default:

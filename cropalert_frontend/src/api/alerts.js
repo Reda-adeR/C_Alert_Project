@@ -34,3 +34,28 @@ export async function createAlert(alertData, accessToken, logout) {
 
   return data;
 }
+
+
+// src/api/alerts.js
+export async function fetchAlerts(accessToken, logout) {
+  try {
+    const response = await fetch(`${API_BASE}/alerts/`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    });
+
+    if (response.status === 401) {
+      logout();  // Token expired or invalid
+      return [];
+    }
+
+    if (!response.ok) throw new Error('Failed to fetch alerts');
+
+    // console.log("-------------response-------------", response.json().then(data => console.log(data)));
+    return await response.json();
+  } catch (err) {
+    console.error('Error fetching alerts:', err);
+    return [];
+  }
+}
