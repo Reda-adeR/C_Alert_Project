@@ -1,11 +1,11 @@
 import React, { createContext, useState, useEffect } from 'react';
 
 export const AuthContext = createContext();
-console.log('AuthContext created');
+// console.log('AuthContext created');
 export const AuthProvider = ({ children }) => {
-    console.log('AuthProvider initialized');
+    // console.log('AuthProvider initialized');
     useEffect(() => {
-  console.log('AuthContext useEffect rannnnnnn');
+  // console.log('AuthContext useEffect rannnnnnn');
     }, []);
   const [auth, setAuth] = useState({
     accessToken: null,
