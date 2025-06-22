@@ -39,9 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework_simplejwt',
+    'channels',
     'corsheaders',
     'accounts',
     'alert',
+    'notifications',
 ]
 
 MIDDLEWARE = [
@@ -104,6 +106,16 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+# configure channels for WebSocket support
+ASGI_APPLICATION = 'cropalert.asgi.application'
+# Channels configuration
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
+}
+
 
 # Custom user model
 AUTH_USER_MODEL = 'accounts.User'

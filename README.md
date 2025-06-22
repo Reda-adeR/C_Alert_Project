@@ -40,5 +40,14 @@ Alert Form created (manual entry of longitude latitude)
 
 <!-- Day 3 -->
 
-Fixed the MapBox issue
-Interactive Map fetching data - Showing the alerts on map and details on click
+Frontend and Backend Tasks :
+- Fixed the MapBox issue
+- Interactive Map fetching data - Showing the alerts on map and details on click
+- Feed Component - Fetching data from a filtered API view 
+
+- Init The real time notification :
+    | setting-up django channels |
+    | creation of consumers.py   |
+    | creating a notification model + linking with alert model |
+    
+
