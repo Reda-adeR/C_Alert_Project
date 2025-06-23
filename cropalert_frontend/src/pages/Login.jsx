@@ -35,7 +35,7 @@ export default function Login() {
         e.preventDefault();
         try {
         // Call your login API here
-        console.log('Logging in with:', formData);
+        // console.log('Logging in with:', formData);
         const data = await handleLogin(formData);
         console.log('Login successful');
         

@@ -3,12 +3,16 @@ import { AuthContext } from '../context/AuthContext';
 import { fetchAlertsFiltered } from '../api/alerts';
 
 export default function Feed() {
-  const { auth, logout } = useContext(AuthContext);
+  const { auth, logout, isReady } = useContext(AuthContext);
   const [alerts, setAlerts] = useState([]);
   const [filters, setFilters] = useState({ area: '', crops: '' });
   const [loading, setLoading] = useState(false);
 
   const loadAlerts = async () => {
+    if (!auth.accessToken) {
+      console.error('No access token found. Please log in.');
+      return;
+    }
     setLoading(true);
     try {
       const data = await fetchAlertsFiltered(auth.accessToken, logout, filters);
@@ -24,8 +28,10 @@ export default function Feed() {
 
   // ✅ Load on first render only
   useEffect(() => {
-    loadAlerts();
-  }, []); // empty dependency array → runs once
+    if (isReady) {
+      loadAlerts();
+    }
+  },[isReady]);
 
   return (
     <div className="p-6">

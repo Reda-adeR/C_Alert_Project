@@ -46,9 +46,9 @@ export const handleLogin = async (userIds) => {
 
     
     // Assuming data contains access_token, refresh_token, and role
-    console.log('Access Token:', data.access);
-    console.log('Refresh Token:', data.refresh);
-    console.log('Role:', data.role);
+    // console.log('Access Token:', data.access);
+    // console.log('Refresh Token:', data.refresh);
+    // console.log('Role:', data.role);
 
   // Save to localStorage or state (minimum logic)
   localStorage.setItem('accessToken', data.access);

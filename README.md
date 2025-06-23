@@ -49,5 +49,8 @@ Frontend and Backend Tasks :
     | setting-up django channels |
     | creation of consumers.py   |
     | creating a notification model + linking with alert model |
-    
+    | the real time init setup is done |
+
+
+
 
