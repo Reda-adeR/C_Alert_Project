@@ -53,4 +53,9 @@ Frontend and Backend Tasks :
 
 
 
+<!-- day 4 -->
+
+Frontend and Backend Tasks :
+- Notifications are sent from backend once a new alert is created
+- can click on an alert on feed to see it in the interactive map
 

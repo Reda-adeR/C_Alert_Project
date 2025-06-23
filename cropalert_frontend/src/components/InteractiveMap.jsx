@@ -12,7 +12,7 @@ const MOROCCO_BOUNDS = {
   maxLat: 36.0
 };
 
-export default function InteractiveMap() {
+export default function InteractiveMap({ highlightedAlertId }) {
   const { auth, logout } = useContext(AuthContext);
   const [alerts, setAlerts] = useState([]);
   const [selected, setSelected] = useState(null);
@@ -43,6 +43,22 @@ export default function InteractiveMap() {
     map.setMaxZoom(12);
     map.touchZoomRotate.disableRotation();
   }, [mapLoaded]);
+
+
+  useEffect(() => {
+  if (highlightedAlertId && alerts.length > 0) {
+    const alertToHighlight = alerts.find(alert => alert.id === highlightedAlertId);
+    if (alertToHighlight) {
+      setSelected(alertToHighlight);
+      setViewState((prev) => ({
+        ...prev,
+        longitude: alertToHighlight.longitude,
+        latitude: alertToHighlight.latitude,
+        zoom: 8 // zoom in closer
+      }));
+    }
+  }
+}, [highlightedAlertId, alerts]);
 
   return (
     <div className="w-full h-[80vh] relative rounded overflow-hidden shadow">
@@ -76,7 +92,9 @@ export default function InteractiveMap() {
               setSelected(alert);
             }}
           >
-            <div className="text-red-600 text-2xl">📍</div>
+            <div className={`text-2xl ${alert.id === highlightedAlertId ? 'animate-bounce text-red-600' : 'text-green-600'}`}>
+              📍
+            </div>
           </Marker>
         ))}
 

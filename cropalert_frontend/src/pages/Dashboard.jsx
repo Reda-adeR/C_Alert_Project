@@ -10,7 +10,8 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState('feed');
-  
+  const [highlightedAlertId, setHighlightedAlertId] = useState(-1);
+  // setHighlightedAlertId(-1)
   const { auth } = useContext(AuthContext);
   // const { isSocketReady, unreadCount, resetUnreadCount } = useContext(WebSocketContext);
   // console.log('WebSocket is ready:', isSocketReady);
@@ -37,11 +38,13 @@ export default function Dashboard() {
       case 'publish':
         return <NewAlertForm />;
       case 'feed':
-        return <Feed />;
+        return <Feed setActiveTab={setActiveTab}
+                    setHighlightedAlertId={setHighlightedAlertId}
+              />;
       case 'map':
-        return <InteractiveMap />; // Assuming InteractiveMap is the map component
+        return <InteractiveMap highlightedAlertId={highlightedAlertId} />; // Assuming InteractiveMap is the map component
       case 'notifications':
-        return <div>🔔 Notification list</div>;
+        return <Feed />;
       default:
         return <div>Select a tab</div>;
     }
