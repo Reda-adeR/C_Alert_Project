@@ -5,18 +5,33 @@ import InteractiveMap from '../components/InteractiveMap';
 
 import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
+import { WebSocketContext } from '../context/SocketContext';
 import { useNavigate } from 'react-router-dom';
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState('feed');
+  
   const { auth } = useContext(AuthContext);
-  const navigate = useNavigate();
+  // const { isSocketReady, unreadCount, resetUnreadCount } = useContext(WebSocketContext);
+  // console.log('WebSocket is ready:', isSocketReady);
+  const wsContext = useContext(WebSocketContext);
 
+  const unreadCount = wsContext?.unreadCount ?? 0;
+  const resetUnreadCount = wsContext?.resetUnreadCount ?? (() => {});
+  // const isSocketReady = wsContext?.isSocketReady ?? false;
+  // console.log('Unread count:', unreadCount);
+  const navigate = useNavigate();
+  
   useEffect(() => {
     if (!auth.accessToken) {
       navigate('/login');
     }});
-
+    
+    // if (!isSocketReady) {
+    //   console.log('WebSocket is not ready yet');
+    //   return null; // or some loading indicator
+    // }
+    
   const renderTabContent = () => {
     switch (activeTab) {
       case 'publish':
@@ -34,7 +49,10 @@ export default function Dashboard() {
 
   return (
     <div>
-      <NavBar onTabChange={setActiveTab} />
+      <NavBar onTabChange={setActiveTab}
+              unreadCount={unreadCount}
+              resetUnreadCount={resetUnreadCount}
+       />
       <div className="p-6">{renderTabContent()}</div>
     </div>
   );

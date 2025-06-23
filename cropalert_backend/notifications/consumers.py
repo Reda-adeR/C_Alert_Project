@@ -20,7 +20,7 @@ class NotificationConsumer(AsyncWebsocketConsumer):
             await self.channel_layer.group_send(
                 self.group_name,
                 {
-                    'type': 'user_joined',
+                    'type': 'newNotif',
                     'message': f"{user.username} has joined the group"
                 }
             )
@@ -31,9 +31,10 @@ class NotificationConsumer(AsyncWebsocketConsumer):
             self.channel_name
         )
 
-    async def user_joined(self, event):
+    async def newNotif(self, event):
         # Send message to WebSocket
-        print("msg sent to group")
+        print("msg sent to group........", event['type'], event['message'])
         await self.send(text_data=json.dumps({
+            'type': event['type'],
             'message': event['message']
         }))

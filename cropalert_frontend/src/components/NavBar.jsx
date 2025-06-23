@@ -1,9 +1,12 @@
 import { useContext, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 
-export default function Navbar({ onTabChange }) {
+// import { WebSocketContext } from '../context/SocketContext';
+
+export default function Navbar({ onTabChange, unreadCount, resetUnreadCount }) {
   const { auth, logout } = useContext(AuthContext);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  // const { unreadCount, resetUnreadCount } = useContext(WebSocketContext);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -32,14 +35,23 @@ export default function Navbar({ onTabChange }) {
           {/* Desktop buttons */}
           <div className="hidden md:flex items-center space-x-4">
             {menuItems.map(({ key, label }) => (
-              <button
-                key={key}
-                onClick={() => onTabChange(key)}
-                className="bg-white text-green-700 px-4 py-2 rounded hover:bg-green-100"
-              >
-                {label}
-              </button>
-            ))}
+                <button
+                  key={key}
+                  onClick={() => {
+                    onTabChange(key)
+                    if (key === 'notifications') resetUnreadCount();
+                  }}
+                  className="relative bg-white text-green-700 px-4 py-2 rounded hover:bg-green-100"
+                >
+                  {label}
+                  {key === 'notifications' && unreadCount > 0 && (
+                    <span className="absolute -top-2 -right-2 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
+                      {unreadCount}
+                    </span>
+                  )}
+                </button>
+              ))}
+
             <button
               onClick={logout}
               className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
@@ -64,17 +76,24 @@ export default function Navbar({ onTabChange }) {
       {isMobileMenuOpen && (
         <div className="md:hidden px-4 pb-4 space-y-2">
           {menuItems.map(({ key, label }) => (
-            <button
-              key={key}
-              onClick={() => {
-                onTabChange(key);
-                setIsMobileMenuOpen(false);
-              }}
-              className="block w-full bg-white text-green-700 px-4 py-2 rounded hover:bg-green-100"
-            >
-              {label}
-            </button>
-          ))}
+              <button
+                key={key}
+                onClick={() => {
+                  onTabChange(key);
+                  if (key === 'notifications') resetUnreadCount();
+                  setIsMobileMenuOpen(false);
+                }}
+                className="relative block w-full bg-white text-green-700 px-4 py-2 rounded hover:bg-green-100"
+              >
+                {label}
+                {key === 'notifications' && unreadCount > 0 && (
+                  <span className="absolute top-1 right-4 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
+                    {unreadCount}
+                  </span>
+                )}
+              </button>
+            ))}
+
           <button
             onClick={logout}
             className="block w-full bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
