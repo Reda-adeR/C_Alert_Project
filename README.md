@@ -1,7 +1,7 @@
 # C_Alert_Project
 
-<!-- Day 1 -->
 
+## - Day 1
 Backend Tasks :
 - Backend init using Django and Django Rest Framework
 - Setup of SimpleJwt for Authentication
@@ -19,8 +19,8 @@ Register and Login finished
 Conditional rendering - Role based Rendering
 
 
-<!-- Day 2 -->
 
+## - Day 2
 Backend Tasks : 
 - Create Model Alert
 - CRUD API
@@ -38,7 +38,7 @@ Alert Form created (manual entry of longitude latitude)
 
 
 
-<!-- Day 3 -->
+## - Day 3
 
 Frontend and Backend Tasks :
 - Fixed the MapBox issue
@@ -53,7 +53,7 @@ Frontend and Backend Tasks :
 
 
 
-<!-- day 4 -->
+## - day 4
 
 Frontend and Backend Tasks :
 - Notifications are sent from backend once a new alert is created
