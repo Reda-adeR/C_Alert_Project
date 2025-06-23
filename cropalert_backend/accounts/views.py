@@ -10,14 +10,7 @@ from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import status
 
-
-
-
-
-# this view handles user registration
-# it uses the RegisterSerializer to validate and create a new user
-# if the data is valid, it returns a success message with the user ID
-# if the data is invalid, it returns the errors with a 400 status code
+# This view will handle user registration
 class UserRegisterView(CreateAPIView):
     def post(self, request):
         serializer = RegisterSerializer(data=request.data)
@@ -26,11 +19,7 @@ class UserRegisterView(CreateAPIView):
             return Response({'message': 'User created successfully', 'user_id': user.id}, status=201)
         return Response(serializer.errors, status=400)
     
-
-    # This view will handle user login
-    # It will use the JWT authentication to log in the user
-    # It will return a token if the login is successful
-    # If the login fails, it will return an error message
+# This view will handle user login
 class UserLoginView(CreateAPIView):
     def post(self, request):
         print("Login request data:", request.data)

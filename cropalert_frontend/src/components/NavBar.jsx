@@ -26,7 +26,7 @@ export default function Navbar({ onTabChange, unreadCount, resetUnreadCount }) {
     <nav className="bg-green-700 text-white shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
-          {/* Logo & Role */}
+
           <div className="flex items-center space-x-4">
             <div className="text-2xl font-bold">🌱 CropAlert</div>
             <div className="text-lg hidden sm:block">Welcome {auth.role}</div>
@@ -60,7 +60,7 @@ export default function Navbar({ onTabChange, unreadCount, resetUnreadCount }) {
             </button>
           </div>
 
-          {/* Burger Button (mobile only) */}
+          {/* Burger Button */}
           <div className="md:hidden">
             <button
               onClick={toggleMobileMenu}

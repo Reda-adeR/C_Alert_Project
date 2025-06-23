@@ -1,4 +1,3 @@
-// src/api/auth.js
 
 const API_BASE = 'http://localhost:8000/api';
 
@@ -15,12 +14,12 @@ export async function registerUser(userData) {
     const data = await response.json();
 
     if (!response.ok) {
-      throw data; // fail
+      throw data; //failure response
     }
 
-    return data; // success
+    return data; //success response
   } catch (error) {
-    throw error; // Error registering user
+    throw error;
   }
 }
 
@@ -34,23 +33,14 @@ export const handleLogin = async (userIds) => {
   const data = await response.json();
 
     if (!response.ok) {
-      // Handle login error
       console.error('Login failed:', data);
       throw new Error(data.message || 'Login failed');
     }
-    // Handle successful login
     console.log('Login successful:', data);
     if (!data.access || !data.refresh) {
         throw new Error('Missing access or refresh token in response');
         }
 
-    
-    // Assuming data contains access_token, refresh_token, and role
-    // console.log('Access Token:', data.access);
-    // console.log('Refresh Token:', data.refresh);
-    // console.log('Role:', data.role);
-
-  // Save to localStorage or state (minimum logic)
   localStorage.setItem('accessToken', data.access);
   localStorage.setItem('refreshToken', data.refresh);
   localStorage.setItem('role', data.role);

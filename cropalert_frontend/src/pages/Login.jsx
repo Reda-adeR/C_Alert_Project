@@ -8,9 +8,6 @@ import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
-    // manage authentication state
-    // login operation.
-    // redirect after login.
     const { login, auth } = useContext(AuthContext);
     useEffect(() => {
     if (auth.accessToken) {
@@ -34,8 +31,6 @@ export default function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-        // Call your login API here
-        // console.log('Logging in with:', formData);
         const data = await handleLogin(formData);
         console.log('Login successful');
         
@@ -43,11 +38,9 @@ export default function Login() {
             accessToken: data.access,
             role: data.role,
         });
-        navigate('/dashboard'); // Redirect to dashboard or home page after login
-        // Handle success, e.g., redirect to dashboard
+        navigate('/dashboard');
         } catch (err) {
         console.error('Login failed:', err);
-        // Handle error, e.g., show an error message
         }
     };
     

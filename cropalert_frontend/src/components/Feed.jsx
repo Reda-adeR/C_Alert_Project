@@ -2,18 +2,21 @@ import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { fetchAlertsFiltered } from '../api/alerts';
 import InteractiveMap from './InteractiveMap';
+import { useCallback } from 'react';
 
-export default function Feed({ setActiveTab, setHighlightedAlertId }) {
+export default function Feed({ setActiveTab, setHighlightedAlertId, notifiedIds }) {
   const { auth, logout, isReady } = useContext(AuthContext);
   const [alerts, setAlerts] = useState([]);
   const [filters, setFilters] = useState({ area: '', crops: '' });
   const [loading, setLoading] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [mapVisible, setMapVisible] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [highlightedId, setHighlightedId] = useState(null);
 
 
 
-  const loadAlerts = async () => {
+  const loadAlerts = useCallback (async () => {
     if (!auth.accessToken) {
       console.error('No access token found. Please log in.');
       return;
@@ -27,20 +30,18 @@ export default function Feed({ setActiveTab, setHighlightedAlertId }) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [auth.accessToken, logout, filters]);
 
-  // ⛔ DO NOT call `fetchAlertsFiltered` outside useEffect or handlers!
 
-  // ✅ Load on first render only
   const seeOnMap = (alertId) => {
   setHighlightedAlertId(alertId);
-  setActiveTab('map');  // Switch tab to Map view
+  setActiveTab('map');
   };
   useEffect(() => {
     if (isReady) {
       loadAlerts();
     }
-  },[isReady]);
+  },[ loadAlerts,isReady]);
 
   return (
   <div className="p-6">
@@ -80,31 +81,40 @@ export default function Feed({ setActiveTab, setHighlightedAlertId }) {
             {alerts.length === 0 ? (
               <p className="text-gray-500 col-span-full">No alerts found.</p>
             ) : (
-              alerts.map((alert) => (
-                <div
-                  key={alert.id}
-                  className="bg-white shadow-md rounded p-4 border border-gray-200"
-                >
-                  <h3 className="text-xl font-semibold">{alert.title}</h3>
-                  <p className="text-gray-600">{alert.description}</p>
-                  <p className="text-sm mt-2">
-                    📍 Lat: {alert.latitude}, Lng: {alert.longitude}
-                  </p>
-                  <p className="text-sm">🌍 Area: {alert.area}</p>
-                  <p className="text-sm">🌾 Crops: {alert.crops}</p>
-                  <p className="text-sm">🌾 Publisher: {alert.publisher}</p>
-                  <p className="text-sm text-gray-400 mt-2">
-                    🕓 {new Date(alert.timestamp).toLocaleString()}
-                  </p>
-                  <button
-                    onClick={() => seeOnMap(alert.id)}
-                    className="mt-2 text-blue-600 hover:underline"
+              alerts.map((alert) => {
+                const isNotified = notifiedIds?.includes(alert.id);
+
+                return (
+                  <div
+                    key={alert.id}
+                    className={`shadow-md rounded p-4 border transition ${
+                      isNotified
+                        ? 'bg-yellow-50 border-yellow-400 shadow-yellow-300'
+                        : 'bg-white border-gray-200'
+                    }`}
                   >
-                    📌 See on map
-                  </button>
-                </div>
-              ))
+                    <h3 className="text-xl font-semibold">{alert.title}</h3>
+                    <p className="text-gray-600">{alert.description}</p>
+                    <p className="text-sm mt-2">
+                      📍 Lat: {alert.latitude}, Lng: {alert.longitude}
+                    </p>
+                    <p className="text-sm">🌍 Area: {alert.area}</p>
+                    <p className="text-sm bold">🌾 Crops: {alert.crops}</p>
+                    <p className="text-sm bold">Publisher: {alert.publisher}</p>
+                    <p className="text-sm text-gray-400 mt-2">
+                      creation : {new Date(alert.timestamp).toLocaleString()}
+                    </p>
+                    <button
+                      onClick={() => seeOnMap(alert.id)}
+                      className="mt-2 text-blue-600 hover:underline"
+                    >
+                      📌 See on map
+                    </button>
+                  </div>
+                );
+              })
             )}
+
           </div>
         )}
       </>

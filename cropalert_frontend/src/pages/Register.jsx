@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { registerUser } from '../api/auth';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -11,7 +12,7 @@ export default function Register() {
     password: '',
     role: 'farmer',
   });
-
+  const navigate = useNavigate();
 //   const [error, setError]       = useState(null);
 //   const [success, setSuccess]   = useState(false);
 
@@ -29,8 +30,7 @@ export default function Register() {
       const result = await registerUser(formData);
       console.log('Success:', result);
       alert('Registration successful!');
-    //   // Handle success, e.g., show a success message or redirect
-
+      navigate('/login');
     //   setSuccess(true);
     //   setError(null);
     } catch (err) {
@@ -38,7 +38,6 @@ export default function Register() {
     //   setError(err);
     //   setSuccess(false);
     }
-    console.log(formData);
     // send formData to your backend
   };
 

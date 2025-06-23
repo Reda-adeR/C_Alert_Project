@@ -12,6 +12,7 @@ from .serializers import AlertSerializer
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 
+# This view will handle listing and creating alerts
 class AlertListCreateView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -27,18 +28,18 @@ class AlertListCreateView(APIView):
 
         serializer = AlertSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(publisher=request.user)
+            alert = serializer.save(publisher=request.user)
 
-            # ✅ Broadcast to WebSocket group
+            # Broadcast to WebSocket group
             channel_layer = get_channel_layer()
             async_to_sync(channel_layer.group_send)(
-                "alerts_group",  # group name that your consumers are connected to
+                "alerts_group",
                 {
                     "type": "newNotif",
                     "message": {
                         "type": "newNotif",
-                        "sender_id": request.user.id 
-                        # "data": AlertSerializer(alert).data
+                        "sender_id": request.user.id,
+                        "alert_id": alert.id,
                     }
                 }
             )
@@ -46,6 +47,7 @@ class AlertListCreateView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+# This view will handle filtering alerts based on area and crops
 class AlertFilteredView(APIView):
     permission_classes = [IsAuthenticated]
 

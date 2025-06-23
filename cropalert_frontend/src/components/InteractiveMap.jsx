@@ -54,7 +54,7 @@ export default function InteractiveMap({ highlightedAlertId }) {
         ...prev,
         longitude: alertToHighlight.longitude,
         latitude: alertToHighlight.latitude,
-        zoom: 8 // zoom in closer
+        zoom: 8
       }));
     }
   }

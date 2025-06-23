@@ -19,7 +19,7 @@ class   TokenAuthMiddleware:
                 token_key = query_dic['token'][0]
                 access_token = AccessToken(token_key)
                 user_id = access_token.payload['user_id']
-                print("entering TokenAuthMiddleware------------------------", user_id)
+                # print("entering TokenAuthMiddleware------------------------", user_id)
                 user = await database_sync_to_async(User.objects.get)(id=user_id)
                 scope['user'] = user
             except Exception:

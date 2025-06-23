@@ -21,33 +21,30 @@ const AlertMap = ({ latitude, longitude, onMapClick }) => {
 
   const [mapLoaded, setMapLoaded] = useState(false);
   const [viewState, setViewState] = useState({
-    longitude: -5.0,  // Default center (Morocco)
+    longitude: -5.0,
     latitude: 32.0,
     zoom: 5
   });
-  // Initialize with props once map is loaded
+
   useEffect(() => {
     if (mapLoaded && latitude && longitude) {
       setViewState({
         longitude,
         latitude,
-        zoom: 12  // Closer zoom when we have specific coordinates
+        zoom: 12
       });
     }
     if (mapRef.current) {
       const map = mapRef.current.getMap();
       
-      // Restrict view to Morocco
       map.setMaxBounds([
-        [MOROCCO_BOUNDS.minLng, MOROCCO_BOUNDS.minLat], // SW
-        [MOROCCO_BOUNDS.maxLng, MOROCCO_BOUNDS.maxLat]  // NE
+        [MOROCCO_BOUNDS.minLng, MOROCCO_BOUNDS.minLat],
+        [MOROCCO_BOUNDS.maxLng, MOROCCO_BOUNDS.maxLat]
       ]);
       
-      // Limit zoom levels
       map.setMinZoom(5);
       map.setMaxZoom(12);
       
-      // Disable rotation
       map.touchZoomRotate.disableRotation();
     }
   }, [mapLoaded, latitude, longitude]);
@@ -80,7 +77,6 @@ const AlertMap = ({ latitude, longitude, onMapClick }) => {
         onLoad={() => setMapLoaded(true)}
         onMove={
             (evt) => {
-          // Enforce boundaries during movement
           let { longitude, latitude } = evt.viewState;
           
           longitude = Math.max(MOROCCO_BOUNDS.minLng, 

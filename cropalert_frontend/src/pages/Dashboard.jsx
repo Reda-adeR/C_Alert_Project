@@ -1,6 +1,6 @@
 import NavBar from '../components/NavBar';
 import NewAlertForm from '../components/NewAlertForm';
-import Feed from '../components/Feed'; // (stub for now)
+import Feed from '../components/Feed';
 import InteractiveMap from '../components/InteractiveMap';
 
 import React, { useState, useEffect, useContext } from 'react';
@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState('feed');
   const [highlightedAlertId, setHighlightedAlertId] = useState(-1);
+  const [notifiedIdsForFeed, setNotifiedIdsForFeed] = useState([]);
   // setHighlightedAlertId(-1)
   const { auth } = useContext(AuthContext);
   // const { isSocketReady, unreadCount, resetUnreadCount } = useContext(WebSocketContext);
@@ -19,6 +20,7 @@ export default function Dashboard() {
 
   const unreadCount = wsContext?.unreadCount ?? 0;
   const resetUnreadCount = wsContext?.resetUnreadCount ?? (() => {});
+  const arrayOfNotifiedAlertIds = wsContext?.notifiedAlertIds ?? [];
   // const isSocketReady = wsContext?.isSocketReady ?? false;
   // console.log('Unread count:', unreadCount);
   const navigate = useNavigate();
@@ -32,7 +34,24 @@ export default function Dashboard() {
     //   console.log('WebSocket is not ready yet');
     //   return null; // or some loading indicator
     // }
-    
+  const handleTabChange = (tab) => {
+    if (tab === 'notifications') {
+      if (arrayOfNotifiedAlertIds.length === 0) return;
+      console.log('notf ids for feed:', arrayOfNotifiedAlertIds);
+      if (activeTab === 'feed') {
+        setActiveTab('');
+      }
+      setNotifiedIdsForFeed(arrayOfNotifiedAlertIds);
+      resetUnreadCount();
+      setTimeout(() => { 
+        setActiveTab('feed')
+        wsContext.clearNotifiedAlertIds(); 
+      }, 0);
+    } else {
+      setActiveTab(tab);
+    }
+  };
+
   const renderTabContent = () => {
     switch (activeTab) {
       case 'publish':
@@ -40,19 +59,19 @@ export default function Dashboard() {
       case 'feed':
         return <Feed setActiveTab={setActiveTab}
                     setHighlightedAlertId={setHighlightedAlertId}
+                    notifiedIds={notifiedIdsForFeed}
               />;
       case 'map':
-        return <InteractiveMap highlightedAlertId={highlightedAlertId} />; // Assuming InteractiveMap is the map component
-      case 'notifications':
-        return <Feed />;
+        return <InteractiveMap highlightedAlertId={highlightedAlertId} />;
       default:
-        return <div>Select a tab</div>;
+        return <div>loading...</div>;
     }
   };
 
   return (
     <div>
-      <NavBar onTabChange={setActiveTab}
+      <NavBar onTabChange={handleTabChange}
+              
               unreadCount={unreadCount}
               resetUnreadCount={resetUnreadCount}
        />

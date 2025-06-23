@@ -12,13 +12,12 @@ import django
 from django.core.asgi import get_asgi_application
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cropalert.settings')
-# Initialize Django ASGI application early to ensure the AppRegistry
-# is populated before importing code that may import ORM models.
 django.setup()
 
 from channels.routing import ProtocolTypeRouter, URLRouter
 import notifications.routing
 from notifications.tokAuth import TokenAuthMiddlewareStack
+
 
 application = ProtocolTypeRouter({
     "http": get_asgi_application(),
