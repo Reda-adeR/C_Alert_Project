@@ -25,8 +25,7 @@ SECRET_KEY = 'django-insecure-2dx@+2ufo0#)=v7*^%5(ar6r63kh1unxyxz7%6s53j155pa(43
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["https://alert-crop-production.up.railway.app"]
-
+ALLOWED_HOSTS = ["alert-crop-production.up.railway.app", "localhost", "127.0.0.1"]
 
 # Application definition
 
@@ -47,6 +46,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -54,7 +54,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'cropalert.urls'
