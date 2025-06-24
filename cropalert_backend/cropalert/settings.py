@@ -128,7 +128,7 @@ REST_FRAMEWORK = {
 
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # for Create React App
+    "https://c-alert-project.vercel.app/"
 ]
 
 
