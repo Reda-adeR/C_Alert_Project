@@ -1,5 +1,5 @@
 
-const API_BASE = 'http://alert-crop-production.up.railway.app/api';
+const API_BASE = 'https://alert-crop-production.up.railway.app/api';
 
 export async function registerUser(userData) {
   try {
