@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-2dx@+2ufo0#)=v7*^%5(ar6r63kh1unxyxz7%6s53j155pa(43
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["http://alert-crop-production.up.railway.app"]
+ALLOWED_HOSTS = ["https://alert-crop-production.up.railway.app"]
 
 
 # Application definition
@@ -128,7 +128,7 @@ REST_FRAMEWORK = {
 
 
 CORS_ALLOWED_ORIGINS = [
-    "https://c-alert-project.vercel.app/"
+    "https://c-alert-project.vercel.app"
 ]
 
 
