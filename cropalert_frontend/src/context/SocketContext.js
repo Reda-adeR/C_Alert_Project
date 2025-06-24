@@ -17,7 +17,7 @@ const WebSocketProvider = ({ children }) => {
     if (!isReady || !auth?.accessToken) return;
     if (socketRef.current) return;
     if (auth?.accessToken) {
-      const ws = new WebSocket(`ws://alert-crop-production.up.railway.app/ws/notifications/?token=${auth.accessToken}`);
+      const ws = new WebSocket(`wss://alert-crop-production.up.railway.app/ws/notifications/?token=${auth.accessToken}`);
       socketRef.current = ws;
       setSocket(ws);
 
