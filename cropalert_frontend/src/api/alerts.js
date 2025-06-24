@@ -1,6 +1,6 @@
 
 
-const API_BASE = 'http://localhost:8000';
+const API_BASE = 'http://alert-crop-production.up.railway.app';
 
 
 export async function createAlert(alertData, accessToken, logout) {
